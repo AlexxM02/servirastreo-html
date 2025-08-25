@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servirastreo - Tecnología GPS que Protege lo que Más te Importa</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #00ff88;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00ff88, #00cc6f);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(30,60,114,0.9), rgba(42,82,152,0.9)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="3" fill="rgba(255,255,255,0.1)"/><circle cx="800" cy="300" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="400" cy="600" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="900" cy="700" r="3" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-text .highlight {
+            color: #00ff88;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInLeft 1s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: slideInLeft 1s ease-out 0.4s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00ff88, #00cc6f);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,255,136,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #1e3c72;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .device-mockup {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .floating-cards {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .info-card {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .info-card:nth-child(1) {
+            top: 20%;
+            right: -10%;
+            animation-delay: 0s;
+        }
+
+        .info-card:nth-child(2) {
+            bottom: 30%;
+            left: -15%;
+            animation-delay: 1s;
+        }
+
+        .info-card:nth-child(3) {
+            top: 50%;
+            right: -20%;
+            animation-delay: 2s;
+        }
+
+        /* Target Sections */
+        .target-selection {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .target-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .target-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .target-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 60px rgba(0,255,136,0.2);
+        }
+
+        .target-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .business-card .target-icon {
+            color: #1e3c72;
+        }
+
+        .personal-card .target-icon {
+            color: #00ff88;
+        }
+
+        .target-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .target-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .target-features {
+            list-style: none;
+            text-align: left;
+        }
+
+        .target-features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .target-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #00ff88;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .product-description {
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-features {
+            list-style: none;
+        }
+
+        .product-features li {
+            padding: 0.3rem 0;
+            opacity: 0.8;
+        }
+
+        .product-features li:before {
+            content: "→ ";
+            color: #00ff88;
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: #00ff88;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            text-align: center;
+            color: #888;
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .target-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Interactive Elements */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 255, 136, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">SERVIRASTREO</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#soluciones">Soluciones</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <a href="#contacto" class="cta-button">Cotizar Ahora</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Tecnología <span class="highlight">GPS</span> que Protege lo que Más te <span class="highlight">Importa</span></h1>
+                <p>Monitoreo satelital en tiempo real para vehículos, personas y carga. Más de 15 años protegiendo a familias y empresas en Colombia.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary pulse" onclick="scrollToTarget()">Encuentra tu Solución</button>
+                    <button class="btn-secondary" onclick="showDemo()">Ver Demo</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="device-mockup">
+                    <div class="floating-cards">
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt" style="color: #00ff88;"></i>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Ubicación en Tiempo Real</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-shield-alt" style="color: #00ff88;"></i>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Máxima Seguridad</p>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-mobile-alt" style="color: #00ff88;"></i>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Control desde tu Móvil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Selection -->
+    <section class="target-selection" id="soluciones">
+        <div class="container">
+            <h2 class="section-title">¿Qué Necesitas Proteger?</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto;">
+                Selecciona el tipo de solución que mejor se adapte a tus necesidades específicas
+            </p>
+            
+            <div class="target-cards">
+                <div class="target-card business-card" onclick="selectTarget('business')">
+                    <div class="target-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Soluciones Empresariales</h3>
+                    <p>Optimiza la gestión de tu flota vehicular y aumenta la productividad de tu empresa</p>
+                    <ul class="target-features">
+                        <li>Control de flotas completas</li>
+                        <li>Reportes de rendimiento</li>
+                        <li>Gestión de combustible</li>
+                        <li>Alertas operativas</li>
+                        <li>Integración con sistemas ERP</li>
+                    </ul>
+                </div>
+
+                <div class="target-card personal-card" onclick="selectTarget('personal')">
+                    <div class="target-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Protección Personal</h3>
+                    <p>Mantén seguro a tu familia y vehículos personales con tecnología de vanguardia</p>
+                    <ul class="target-features">
+                        <li>Ubicación en tiempo real</li>
+                        <li>Botón de pánico SOS</li>
+                        <li>Cercas virtuales</li>
+                        <li>Alertas por WhatsApp</li>
+                        <li>App móvil intuitiva</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="productos">
+        <div class="container">
+            <h2 class="section-title">Nuestros Productos de Última Generación</h2>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="product-title">Minitrack TT8850</h3>
+                    <p class="product-description">
+                        GPS compacto y discreto perfecto para seguimiento de activos y aplicaciones que requieren 
+                        1-2 semanas de duración de batería.
+                    </p>
+                    <ul class="product-features">
+                        <li>Resistencia al agua IPX5</li>
+                        <li>Botón SOS integrado</li>
+                        <li>Batería de larga duración</li>
+                        <li>Conexión a batería vehicular</li>
+                        <li>Tamaño ultra compacto</li>
+                    </ul>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <h3 class="product-title">Teltonika FM1202</h3>
+                    <p class="product-description">
+                        Terminal robusto con conectividad GSM y GPS, ideal para aplicaciones comerciales 
+                        que requieren máxima confiabilidad.
+                    </p>
+                    <ul class="product-features">
+                        <li>Encapsulado IP 67</li>
+                        <li>16,000 registros de memoria</li>
+                        <li>Control de dispositivos remotos</li>
+                        <li>Monitoreo de estado del motor</li>
+                        <li>Identificación de conductores</li>
+                    </ul>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <h3 class="product-title">Teltonika FM5300</h3>
+                    <p class="product-description">
+                        Terminal avanzado con GLONASS/GPS y conectividad GSM para aplicaciones profesionales 
+                        de alta exigencia.
+                    </p>
+                    <ul class="product-features">
+                        <li>Doble posicionamiento GLONASS/GPS</li>
+                        <li>Conectividad GSM avanzada</li>
+                        <li>Seguimiento rápido y preciso</li>
+                        <li>Ideal para flotas comerciales</li>
+                        <li>Configuración remota</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <h2 class="section-title">¿Por Qué Elegir Servirastreo?</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>15+ Años de Experiencia</h4>
+                    <p>Más de una década protegiendo vehículos y personas en toda Colombia</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4>Soporte 24/7</h4>
+                    <p>Atención técnica especializada las 24 horas del día, los 365 días del año</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h4>Instalación Profesional</h4>
+                    <p>Técnicos certificados que garantizan una instalación perfecta y confiable</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Tecnología Avanzada</h4>
+                    <p>Equipos de última generación con las mejores marcas del mercado mundial</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4>Cobertura Nacional</h4>
+                    <p>Servicio disponible en todo el territorio colombiano con la mejor cobertura</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4>Cliente Satisfecho</h4>
+                    <p>Un cliente satisfecho es nuestra principal estrategia de negocio</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contacto">
+        <div class="container">
+            <div class="cta-content">
+                <h2>¿Listo para Proteger lo que Más te Importa?</h2>
+                <p>Obtén una cotización personalizada y descubre cómo podemos ayudarte</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="openWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp: +57 300 123 4567
+                    </button>
+                    <button class="btn-secondary" onclick="openContactForm()">Solicitar Cotización</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SERVIRASTREO</h4>
+                    <p>Más de 15 años ofreciendo las mejores soluciones de monitoreo satelital GPS en Colombia.</p>
+                    <p>Girón, Santander - Colombia</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <p><a href="#">Monitoreo GPS</a></p>
+                    <p><a href="#">Rastreo Satelital</a></p>
+                    <p><a href="#">Soluciones Empresariales</a></p>
+                    <p><a href="#">Protección Personal</a></p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Productos</h4>
+                    <p><a href="#">Minitrack TT8850</a></p>
+                    <p><a href="#">Teltonika FM1202</a></p>
+                    <p><a href="#">Teltonika FM5300</a></p>
+                    <p><a href="#">Accesorios</a></p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +57 300 123 4567</p>
+                    <p><i class="fas fa-envelope"></i> info@servirastreo.net</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Girón, Santander</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Servirastreo. Todos los derechos reservados. | Tecnología GPS que Protege lo que Más te Importa</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        function scrollToTarget() {
+            document.getElementById('soluciones').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Target selection
+        function selectTarget(type) {
+            if (type === 'business') {
+                alert('¡Perfecto! Te contactaremos para ofrecerte nuestras soluciones empresariales personalizadas.');
+            } else if (type === 'personal') {
+                alert('¡Excelente! Te ayudaremos a encontrar la mejor protección para tu familia y vehículos.');
+            }
+        }
+
+        // WhatsApp integration
+        function openWhatsApp() {
+            const message = encodeURIComponent('Hola! Me interesa conocer más sobre sus soluciones de rastreo GPS. ¿Podrían darme información?');
+            window.open(`https://wa.me/573001234567?text=${message}`, '_blank');
+        }
+
+        // Contact form
+        function openContactForm() {
+            alert('Formulario de cotización próximamente. Por ahora puedes contactarnos vía WhatsApp.');
+        }
+
+        // Demo functionality
+        function showDemo() {
+            alert('Demo interactivo próximamente. ¡Contáctanos para una demostración personalizada!');
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(30, 60, 114, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.target-card, .product-card, .feature-card');
+            animateElements.forEach(el => observer.observe(el));
+        });
+
+        // Additional slide in animation
+        const slideInUpStyle = `
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        
+        // Add the animation style to document
+        const style = document.createElement('style');
+        style.textContent = slideInUpStyle;
+        document.head.appendChild(style);
+
+        // Interactive card hover effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.target-card, .product-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+
+        // Mobile menu toggle (for future implementation)
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Form validation functions (for future contact form)
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePhone(phone) {
+            const re = /^[+]?[\d\s\-()]+$/;
+            return re.test(phone);
+        }
+
+        // Analytics tracking (placeholder for future implementation)
+        function trackEvent(eventName, details) {
+            console.log(`Event: ${eventName}`, details);
+            // Aquí integrarías Google Analytics o similar
+        }
+
+        // Track button clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-primary') || 
+                e.target.classList.contains('btn-secondary') ||
+                e.target.classList.contains('cta-button')) {
+                trackEvent('button_click', {
+                    button_text: e.target.textContent,
+                    page_section: e.target.closest('section')?.id || 'header'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
