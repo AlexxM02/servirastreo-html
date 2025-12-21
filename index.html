@@ -48,11 +48,11 @@
     .btn-secondary:hover{background:#fff;color:#1e3c72}
     .hero-visual{position:relative;animation:slideInRight 1s ease-out}
     .device-mockup{width:100%;max-width:500px;margin:0 auto;position:relative}
-    .floating-cards{position:absolute;top:0;left:0;width:100%;height:100%}
-    .info-card{position:absolute;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:15px;padding:1rem;border:1px solid rgba(255,255,255,.2);animation:float 3s ease-in-out infinite}
-    .info-card:nth-child(1){top:20%;right:-10%}
-    .info-card:nth-child(2){bottom:30%;left:-15%;animation-delay:1s}
-    .info-card:nth-child(3){top:50%;right:-20%;animation-delay:2s}
+    .floating-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;position:relative;width:100%;max-width:420px;margin:0 auto;}
+    .info-card{position:relative;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);border-radius:14px;padding:1rem;border:1px solid rgba(255,255,255,.25);animation:float 4s ease-in-out infinite;text-align:left;}
+    .info-card:nth-child(1){animation-delay:0s}
+    .info-card:nth-child(2){animation-delay:1s}
+    .info-card:nth-child(3){animation-delay:2s}
     .target-selection{padding:5rem 0;background:#f8f9fa}
     .container{max-width:1200px;margin:0 auto;padding:0 2rem}
     .section-title{text-align:center;font-size:2.2rem;margin-bottom:3rem;color:#333}
@@ -181,7 +181,7 @@
           <p>Optimiza la gestión de tu flota vehicular y aumenta la productividad de tu empresa.</p>
           <ul class="target-features">
             <li>Control de flotas completas</li><li>Reportes de rendimiento</li>
-            <li>Gestión de combustible</li><li>Alertas operativas</li><li>Integración con ERP</li>
+            <li>Gestión de combustible</li><li>Alertas operativas</li><li>Integración y cumplimiento RNDC</li>
           </ul>
         </article>
 
@@ -190,8 +190,8 @@
           <h3>Protección personal</h3>
           <p>Mantén segura a tu familia y vehículos personales con tecnología de vanguardia.</p>
           <ul class="target-features">
-            <li>Ubicación en tiempo real</li><li>Botón SOS</li>
-            <li>Cercas virtuales</li><li>Alertas por WhatsApp</li><li>App móvil intuitiva</li>
+            <li>Ubicación en tiempo real</li><li>Botón de pánico SOS</li>
+            <li>Geocercas virtuales</li><li>Alertas por WhatsApp</li><li>App móvil intuitiva</li>
           </ul>
         </article>
       </div>
@@ -293,7 +293,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2024 Servirastreo. Todos los derechos reservados. | Tecnología GPS que protege lo que más te importa.</p>
+        <p>&copy; 2015 Servirastreo. Todos los derechos reservados. | Tecnología GPS que protege lo que más te importa.</p>
       </div>
     </div>
   </footer>
@@ -326,4 +326,5 @@
   </script>
 </body>
 </html>
+
 
